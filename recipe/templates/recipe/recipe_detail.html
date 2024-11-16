@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div>
+    <a href="{% url "home" %}">Recipe List</a><br>
+    <h2>{{ recipe.name }}</h2>
+        Created by:
+        {{ recipe.author.username }} <br><br>
+        Ingredients: <br>
+        {{ recipe.ingredients }} <br><br>
+        {% if recipe.image %}
+            <img src="{{ recipe.image.url }}"><br><br>
+        {% endif %}
+        Instructions: <br>
+        {{ recipe.instructions }}<br><br>
+        Categories: <br>
+        {% for category in recipe.categories.all %}
+            {{ category }} <br>
+        {% endfor %}
+</div>
+<br>
+{% if user.is_authenticated %}
+    {% if user.id == recipe.author.id %}
+        <button><a href="{% url "update_recipe" recipe.pk %}">+ Edit Recipe</a></button>
+        <button><a href="{% url "delete_recipe" recipe.pk %}">- Delete Recipe</a></button>
+    {% endif %}
+{% endif %}
+{% endblock content %}
+

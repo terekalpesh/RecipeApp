@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if user.is_authenticated %}
+    <a href="{% url 'new_recipe' %}">+ Create new recipe</a>
+{% endif %}
+
+<div>
+    <form method="GET" action="{% url 'search_results' %}" >
+        {% csrf_token %}
+        <input type="search" name="q"> 
+        <button type="submit"> Search </button>
+    </form>
+</div>
+
+<div>
+    <h2>Recipes</h2>
+    {% for recipe in recipe_list %}
+    <a href="{% url 'recipe_detail' recipe.pk %}">{{ recipe.name }}</a>
+    <br/>
+    {% endfor %}
+</div>
+{% endblock content %}
+
+<a href="{% url 'recipe_detail' recipe.pk %}">{{ recipe.name }}</a>
